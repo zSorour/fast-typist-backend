@@ -1,0 +1,12 @@
+# Dependency directory
+node_modules
+
+# Keep environment variables out of version control
+.env
+
+# Keep docker files out of version control
+docker-compose.yml
+pgdata
+
+# Ignore built ts files
+dist/**/*

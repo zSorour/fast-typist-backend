@@ -1,0 +1,13 @@
+# THIS IS AN EXAMPLE ONLY. DO NOT USE THIS IN PRODUCTION OR WHEN YOU TRY TO RUN YOUR PROJECT. REPLACE IT WITH YOUR OWN VALUES.
+services:
+  postgres-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: REPLACE_ME_WITH_A_STRONG_PASSWORD
+      POSTGRES_USER: REPLACE_ME_WITH_A_USERNAME
+      POSTGRES_DB: REPLACE_ME_WITH_DB_NAME
+    ports:
+      - '5432:5432'
+    volumes:
+      # Mount the data directory to a volume so that it persists
+      - ./pgdata:/var/lib/postgresql/data
