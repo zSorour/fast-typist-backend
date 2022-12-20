@@ -16,7 +16,7 @@ model Account {
 }
 
 model Player {
-  account           Account            @relation(fields: [accountId], references: [username])
+  account           Account            @relation(fields: [accountId], references: [username], onDelete: Cascade)
   accountId         String             @id @unique
   // Player plays many single player games
   singlePlayerGames SinglePlayerGame[]
