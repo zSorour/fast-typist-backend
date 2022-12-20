@@ -1,11 +1,10 @@
 import express from 'express';
 
 import authRouter from '@routes/auth';
-import playerRouter from '@routes/player';
-import scoreboardRouter from '@routes/scoreboard';
-import gamesRouter from '@routes/games';
+import handleError from '@middlewares/errorHandler';
 
 const app = express();
+app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
@@ -14,6 +13,5 @@ app.listen(PORT, () => {
 });
 
 app.use('/auth', authRouter);
-app.use('/player', playerRouter);
-app.use('/scoreboard', scoreboardRouter);
-app.use('/games', gamesRouter);
+
+app.use(handleError);
