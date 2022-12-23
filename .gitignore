@@ -7,6 +7,7 @@ node_modules
 # Keep docker files out of version control
 docker-compose.yml
 pgdata
+redisdata
 
 # Ignore built ts files
 dist/**/*
