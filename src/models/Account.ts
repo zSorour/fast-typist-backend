@@ -1,4 +1,4 @@
-import Prisma from '@config/db';
+import Prisma from '@config/prisma';
 
 export default class Account {
   public getAccount = async (username: string, email?: string) => {
