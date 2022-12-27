@@ -1,6 +1,6 @@
-import { AppError } from '@models/AppError';
-import { HTTPError } from '@models/HTTPError';
 import { NextFunction, Request, Response } from 'express';
+import HTTPError from '@errors/HTTPError';
+import AppError from '@errors/AppError';
 
 const handleError = (
   err: Error,

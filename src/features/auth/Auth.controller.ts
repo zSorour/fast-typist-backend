@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 
-import AuthService from '@services/Auth';
-
+import AuthService from './Auth.service';
 import { LoginInput, RegisterInput } from '@schemas/account';
-import { HTTPError } from '@models/HTTPError';
-import { AppError } from '@models/AppError';
+import AppError from '@errors/AppError';
+import HTTPError from '@errors/HTTPError';
 
 export default class AuthController {
   private authService: AuthService;

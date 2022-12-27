@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
-import authRouter from '@routes/auth';
+import authRouter from '@features/auth/Auth.router';
 import handleError from '@middlewares/errorHandler';
 
 dotenv.config();

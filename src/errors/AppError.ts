@@ -1,4 +1,4 @@
-export class AppError extends Error {
+class AppError extends Error {
   public details: string[];
 
   constructor(message: string, details: string[] = []) {
@@ -6,3 +6,5 @@ export class AppError extends Error {
     this.details = details;
   }
 }
+
+export default AppError;

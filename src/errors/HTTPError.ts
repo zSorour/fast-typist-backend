@@ -1,6 +1,6 @@
-import { AppError } from '@models/AppError';
+import AppError from '@errors/AppError';
 
-export class HTTPError extends AppError {
+class HTTPError extends AppError {
   public status: number;
 
   constructor(message: string, status: number = 500, details: string[] = []) {
@@ -8,3 +8,5 @@ export class HTTPError extends AppError {
     this.status = status;
   }
 }
+
+export default HTTPError;

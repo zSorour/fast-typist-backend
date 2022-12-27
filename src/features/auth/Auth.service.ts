@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import AccountModel from '@models/Account';
 
 import { RegisterInput, LoginInput } from '@schemas/account';
-import { AppError } from '@models/AppError';
+import AppError from '@errors/AppError';
 import redis from '@config/redis';
 
 type TokenPayload = { username: string };
