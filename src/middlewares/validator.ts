@@ -1,4 +1,4 @@
-import { HTTPError } from '@models/HTTPError';
+import HTTPError from '@errors/HTTPError';
 import { NextFunction, Request, Response } from 'express';
 import { AnyZodObject } from 'zod';
 
