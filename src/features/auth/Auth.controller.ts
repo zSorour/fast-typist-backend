@@ -23,7 +23,10 @@ export default class AuthController {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production'
       });
-      return res.json(accessToken);
+      return res.json({
+        accessToken: accessToken,
+        username: username
+      });
     } catch (err: any) {
       if (err instanceof AppError) {
         res.status(401);
@@ -41,7 +44,9 @@ export default class AuthController {
         email,
         password
       });
-      return res.json(account);
+      return res.json({
+        username: account.username
+      });
     } catch (err: any) {
       if (err instanceof AppError) {
         res.status(422);
@@ -78,7 +83,9 @@ export default class AuthController {
         refreshToken
       );
       const accessToken = this.authService.generateAccessToken({ username });
-      return res.json(accessToken);
+      return res.json({
+        accessToken: accessToken
+      });
     } catch (err: any) {
       if (err instanceof AppError) {
         res.status(401);
