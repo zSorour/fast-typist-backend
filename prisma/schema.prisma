@@ -22,7 +22,7 @@ model Player {
   singlePlayerGames SinglePlayerGame[]
 
   // Player plays many multiplayer games
-  multiPlayerGames MultiplayerGame[] @relation("Player_MultiplayerGames")
+  multiplayerGames PlayersOnMultiplayerGames[]
 
   // Player wins many multiplayer games
   gamesWon MultiplayerGame[]
@@ -30,7 +30,6 @@ model Player {
 
 model Game {
   id               String            @id @default(uuid())
-  score            Int
   startDateTime    DateTime
   endDateTime      DateTime
   wpm              Float
@@ -45,6 +44,8 @@ model SinglePlayerGame {
   // A single player game is played by one player
   player   Player @relation(fields: [playerId], references: [accountId])
   playerId String
+
+  score Int
 }
 
 model MultiplayerGame {
@@ -52,9 +53,22 @@ model MultiplayerGame {
   gameId String @id @unique
 
   // A multiplayer game is played by many players
-  players Player[] @relation("Player_MultiplayerGames")
+  PlayersOnMultiplayerGames PlayersOnMultiplayerGames[]
 
   // A multiplayer game has one winner
   winner   Player @relation(fields: [winnerId], references: [accountId])
   winnerId String
+}
+
+model PlayersOnMultiplayerGames {
+  player   Player @relation(fields: [playerId], references: [accountId])
+  playerId String
+
+  game   MultiplayerGame @relation(fields: [gameId], references: [gameId])
+  gameId String
+
+  // relationship attributes:
+  score Int
+
+  @@id([playerId, gameId])
 }
