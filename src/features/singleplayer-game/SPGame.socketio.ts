@@ -60,7 +60,9 @@ export class SPGameSocketIO {
   };
 
   private sendGameStartedEvent = () => {
-    this._socket.emit('gameStarted');
+    this._socket.emit('gameStarted', {
+      timeLeft: this._spGameService.timeLeft
+    });
   };
   private send1SecPassedEvent = () => {
     if (this._spGameService.timeLeft >= 1) {

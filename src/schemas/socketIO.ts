@@ -4,7 +4,7 @@ import { z } from 'zod';
 export type SPGameServerToClientEvents = {
   error: (payload: ErrorPayload) => void;
   initialWords: (payload: InitialWordsPayload) => void;
-  gameStarted: () => void;
+  gameStarted: (payload: GameStartedPayload) => void;
   timeLeft: (payload: TimeLeftPayload) => void;
   correctWord: (payload: CorrectWordPayload) => void;
   gameEnded: (payload: GameEndedPayload) => void;
@@ -13,6 +13,7 @@ export type SPGameServerToClientEvents = {
 // Server Sent Event Payloads
 export type ErrorPayload = { message: string };
 export type InitialWordsPayload = { words: string[] };
+export type GameStartedPayload = { timeLeft: number };
 export type TimeLeftPayload = { timeLeft: number };
 export type CorrectWordPayload = {
   currentScore: number;
