@@ -35,6 +35,7 @@ export class SPGameService {
   public startGame(timeLimit: number, onSecElapsed: () => void) {
     this._startTimestamp = Date.now();
     this._timeLimit = timeLimit;
+    this._timeLeft = timeLimit;
     this._onSecElapsed = onSecElapsed;
     this.invokeTimer();
   }
@@ -68,13 +69,13 @@ export class SPGameService {
 
   private invokeTimer() {
     this._timer = setInterval(() => {
-      if (this._timeLeft > 1) {
+      if (this._timeLeft >= 1) {
         this._timeLeft -= 1;
-        this._onSecElapsed();
       } else {
         clearInterval(this._timer!);
         this._timer = null;
       }
+      this._onSecElapsed();
     }, 1000);
   }
 
