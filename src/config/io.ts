@@ -10,7 +10,12 @@ import {
 import { SPGameSocketIO } from '@features/singleplayer-game/SPGame.socketio';
 
 const initSocketServer = (httpServer: Server) => {
-  const io = new SocketIOServer(httpServer);
+  const io = new SocketIOServer(httpServer, {
+    cors: {
+      origin: '*',
+      credentials: true
+    }
+  });
   const spGameNamespace: Namespace<
     SPGameClientToServerEvents,
     SPGameServerToClientEvents,
