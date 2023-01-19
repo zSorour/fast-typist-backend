@@ -1,5 +1,5 @@
 import { Server } from 'http';
-import { Namespace, Server as SocketIOServer } from 'socket.io';
+import { Namespace, Socket, Server as SocketIOServer } from 'socket.io';
 
 import {
   SPGameClientToServerEvents,
@@ -8,6 +8,26 @@ import {
   SocketData
 } from '@schemas/socketIO';
 import { SPGameSocketIO } from '@features/singleplayer-game/SPGame.socketio';
+import AuthService from '@features/auth/Auth.service';
+import { ExtendedError } from 'socket.io/dist/namespace';
+import AppError from '@errors/AppError';
+
+const authenticateSocket = (
+  socket: Socket,
+  next: (err?: ExtendedError) => void
+) => {
+  const authService = new AuthService();
+  const { token } = socket.handshake.auth;
+  try {
+    const decodedToken = authService.verifyAccessToken(token);
+    socket.data.username = decodedToken.username;
+    next();
+  } catch (error) {
+    if (error instanceof AppError) {
+      next(error);
+    }
+  }
+};
 
 const initSocketServer = (httpServer: Server) => {
   const io = new SocketIOServer(httpServer, {
@@ -23,8 +43,11 @@ const initSocketServer = (httpServer: Server) => {
     SocketData
   > = io.of('/sp-game');
 
-  const spGameSocketIO = new SPGameSocketIO(spGameNamespace);
-  spGameSocketIO.registerEvents();
+  spGameNamespace.use(authenticateSocket);
+  spGameNamespace.on('connection', (socket) => {
+    const spGameSocketIO = new SPGameSocketIO(spGameNamespace);
+    spGameSocketIO.registerEvents(socket);
+  });
 };
 
 export default initSocketServer;

@@ -105,14 +105,11 @@ export class SPGameSocketIO {
     }
   };
 
-  public registerEvents = () => {
-    this._namespace.use(this.authenticateSocket);
-    this._namespace.on('connection', (socket) => {
-      this._socket = socket;
-      this._socket.emit('initialWords', { words: this._spGameService.words });
-      socket.on('startGame', this.onStartGame.bind(this));
-      socket.on('wordInput', this.onWordInput.bind(this));
-      socket.on('endGame', this.onEndGame.bind(this));
-    });
+  public registerEvents = (socket: Socket) => {
+    this._socket = socket;
+    this._socket.emit('initialWords', { words: this._spGameService.words });
+    socket.on('startGame', this.onStartGame.bind(this));
+    socket.on('wordInput', this.onWordInput.bind(this));
+    socket.on('endGame', this.onEndGame.bind(this));
   };
 }
