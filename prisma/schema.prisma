@@ -39,7 +39,7 @@ model Game {
 
 model SinglePlayerGame {
   game   Game   @relation(fields: [gameId], references: [id])
-  gameId String @unique
+  gameId String @id
 
   // A single player game is played by one player
   player   Player @relation(fields: [playerId], references: [accountId])
@@ -50,7 +50,7 @@ model SinglePlayerGame {
 
 model MultiplayerGame {
   game   Game   @relation(fields: [gameId], references: [id])
-  gameId String @id @unique
+  gameId String @id
 
   // A multiplayer game is played by many players
   playersOnMultiplayerGames PlayersOnMultiplayerGames[]
