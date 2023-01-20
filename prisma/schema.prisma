@@ -38,7 +38,7 @@ model Game {
 }
 
 model SinglePlayerGame {
-  game   Game   @relation(fields: [gameId], references: [id])
+  game   Game   @relation(fields: [gameId], references: [id], onDelete: Cascade)
   gameId String @id
 
   // A single player game is played by one player
@@ -49,7 +49,7 @@ model SinglePlayerGame {
 }
 
 model MultiplayerGame {
-  game   Game   @relation(fields: [gameId], references: [id])
+  game   Game   @relation(fields: [gameId], references: [id], onDelete: Cascade)
   gameId String @id
 
   // A multiplayer game is played by many players
