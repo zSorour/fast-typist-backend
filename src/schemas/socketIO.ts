@@ -34,7 +34,9 @@ export type SPGameClientToServerEvents = {
 
 // Client Sent Event Payloads
 export const startGamePayloadSchema = z.object({
-  timeLimit: z.number().step(2).min(1).max(7)
+  timeLimit: z
+    .number()
+    .refine((val) => (val >= 1 && val <= 5) || val === 7 || val === 10)
 });
 export type StartGamePayload = z.infer<typeof startGamePayloadSchema>;
 
