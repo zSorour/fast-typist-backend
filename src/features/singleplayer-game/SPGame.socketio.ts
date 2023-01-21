@@ -78,7 +78,6 @@ export class SPGameSocketIO {
       score: this._spGameService.currentScore,
       topScore: topScore
     });
-    this._socket.disconnect();
   }
 
   public registerEvents = async () => {
