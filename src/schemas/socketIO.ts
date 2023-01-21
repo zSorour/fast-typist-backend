@@ -12,12 +12,13 @@ export type SPGameServerToClientEvents = {
 
 // Server Sent Event Payloads
 export type ErrorPayload = { message: string };
-export type InitialWordsPayload = { words: string[] };
+export type InitialWordsPayload = { words: string[]; personalTopScore: number };
 export type GameStartedPayload = { timeLeft: number };
 export type TimeLeftPayload = { timeLeft: number };
 export type CorrectWordPayload = {
   currentScore: number;
   newWord: string;
+  timeLeft: number;
 };
 
 export type GameEndedPayload = {
