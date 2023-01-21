@@ -74,9 +74,12 @@ export class SPGameSocketIO {
   private async sendGameEndedEvent() {
     const username = this._socket.data.username!;
     const topScore = await this._spGameService.getPlayerTopScore(username);
+    // Reset the game
+    this._spGameService = new SPGameService();
     this._socket.emit('gameEnded', {
       score: this._spGameService.currentScore,
-      topScore: topScore
+      topScore: topScore,
+      newWords: this._spGameService.words
     });
   }
 
