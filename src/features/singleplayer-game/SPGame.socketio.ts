@@ -1,5 +1,3 @@
-import AppError from '@errors/AppError';
-import AuthService from '@features/auth/Auth.service';
 import {
   InterServerEvents,
   SPGameClientToServerEvents,
@@ -9,17 +7,10 @@ import {
   WordInputPayload,
   startGamePayloadSchema
 } from '@schemas/socketIO';
-import { Namespace, Socket } from 'socket.io';
-import { ExtendedError } from 'socket.io/dist/namespace';
+import { Socket } from 'socket.io';
 import { SPGameService } from './SPGame.service';
 
 export class SPGameSocketIO {
-  private _namespace: Namespace<
-    SPGameClientToServerEvents,
-    SPGameServerToClientEvents,
-    InterServerEvents,
-    SocketData
-  >;
   private _socket!: Socket<
     SPGameClientToServerEvents,
     SPGameServerToClientEvents,
@@ -29,8 +20,8 @@ export class SPGameSocketIO {
 
   private _spGameService: SPGameService;
 
-  constructor(namespace: Namespace) {
-    this._namespace = namespace;
+  constructor(socket: Socket) {
+    this._socket = socket;
     this._spGameService = new SPGameService();
   }
 
@@ -64,10 +55,11 @@ export class SPGameSocketIO {
       timeLeft: this._spGameService.timeLeft
     });
   };
-  private send1SecPassedEvent = () => {
+  private send1SecPassedEvent = async () => {
     if (this._spGameService.timeLeft >= 1) {
       this._socket.emit('timeLeft', { timeLeft: this._spGameService.timeLeft });
     } else {
+      await this._spGameService.endGame(this._socket.data.username!);
       this.sendGameEndedEvent();
     }
   };
@@ -75,7 +67,8 @@ export class SPGameSocketIO {
     const words = this._spGameService.words;
     this._socket.emit('correctWord', {
       newWord: words[words.length - 1],
-      currentScore: this._spGameService.currentScore
+      currentScore: this._spGameService.currentScore,
+      timeLeft: this._spGameService.timeLeft
     });
   };
   private async sendGameEndedEvent() {
@@ -88,28 +81,16 @@ export class SPGameSocketIO {
     this._socket.disconnect();
   }
 
-  private authenticateSocket = (
-    socket: Socket,
-    next: (err?: ExtendedError) => void
-  ) => {
-    const authService = new AuthService();
-    const { token } = socket.handshake.auth;
-    try {
-      const decodedToken = authService.verifyAccessToken(token);
-      socket.data.username = decodedToken.username;
-      next();
-    } catch (error) {
-      if (error instanceof AppError) {
-        next(error);
-      }
-    }
-  };
-
-  public registerEvents = (socket: Socket) => {
-    this._socket = socket;
-    this._socket.emit('initialWords', { words: this._spGameService.words });
-    socket.on('startGame', this.onStartGame.bind(this));
-    socket.on('wordInput', this.onWordInput.bind(this));
-    socket.on('endGame', this.onEndGame.bind(this));
+  public registerEvents = async () => {
+    const personalTopScore = await this._spGameService.getPlayerTopScore(
+      this._socket.data.username!
+    );
+    this._socket.emit('initialWords', {
+      words: this._spGameService.words,
+      personalTopScore: personalTopScore
+    });
+    this._socket.on('startGame', this.onStartGame.bind(this));
+    this._socket.on('wordInput', this.onWordInput.bind(this));
+    this._socket.on('endGame', this.onEndGame.bind(this));
   };
 }

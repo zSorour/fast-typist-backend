@@ -45,7 +45,8 @@ export class SPGameService {
     const timeDifference = endTimestamp - this._startTimestamp;
     const timeDifferenceInSeconds = timeDifference / 1000;
     const wpm = (this._correctWordsCount / timeDifferenceInSeconds) * 60;
-    this._spGameModel.createSPGame({
+    clearInterval(this._timer!);
+    await this._spGameModel.createSPGame({
       score: this._currentScore,
       startTimestamp: this._startTimestamp,
       username: username,

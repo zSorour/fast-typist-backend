@@ -45,8 +45,8 @@ const initSocketServer = (httpServer: Server) => {
 
   spGameNamespace.use(authenticateSocket);
   spGameNamespace.on('connection', (socket) => {
-    const spGameSocketIO = new SPGameSocketIO(spGameNamespace);
-    spGameSocketIO.registerEvents(socket);
+    const spGameSocketIO = new SPGameSocketIO(socket);
+    spGameSocketIO.registerEvents();
   });
 };
 
