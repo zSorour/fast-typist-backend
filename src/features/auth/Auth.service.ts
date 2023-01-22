@@ -87,9 +87,8 @@ export default class AuthService {
       ) as { username: string };
     } catch (error: any) {
       if (error instanceof jwt.TokenExpiredError) {
-        throw new AppError('Unauthorized', ['Token expired.']);
+        throw error;
       }
-      console.log(error);
       throw new AppError('Unauthorized', ['Access token is invalid']);
     }
     return decodedToken;
