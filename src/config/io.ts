@@ -11,6 +11,7 @@ import { SPGameSocketIO } from '@features/singleplayer-game/SPGame.socketio';
 import AuthService from '@features/auth/Auth.service';
 import { ExtendedError } from 'socket.io/dist/namespace';
 import AppError from '@errors/AppError';
+import { TokenExpiredError } from 'jsonwebtoken';
 
 const authenticateSocket = (
   socket: Socket,
@@ -23,6 +24,10 @@ const authenticateSocket = (
     socket.data.username = decodedToken.username;
     next();
   } catch (error) {
+    if (error instanceof TokenExpiredError) {
+      const error = new Error('Token Expired');
+      next(error);
+    }
     if (error instanceof AppError) {
       next(error);
     }
