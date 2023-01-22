@@ -21,7 +21,8 @@ export default class AuthController {
       });
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production'
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 31536000 // 1 year
       });
       return res.json({
         accessToken: accessToken,
