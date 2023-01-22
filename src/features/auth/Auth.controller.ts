@@ -12,7 +12,7 @@ export default class AuthController {
     this.authService = new AuthService();
   }
 
-  public login = async (req: Request, res: Response, next: NextFunction) => {
+  public async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { username, password } = req.body as LoginInput;
       const { accessToken, refreshToken } = await this.authService.login({
@@ -33,9 +33,9 @@ export default class AuthController {
       }
       next(err);
     }
-  };
+  }
 
-  public register = async (req: Request, res: Response, next: NextFunction) => {
+  public async register(req: Request, res: Response, next: NextFunction) {
     try {
       const { username, email, password } = req.body as RegisterInput;
 
@@ -53,9 +53,9 @@ export default class AuthController {
       }
       next(err);
     }
-  };
+  }
 
-  public logout = async (req: Request, res: Response, next: NextFunction) => {
+  public async logout(req: Request, res: Response, next: NextFunction) {
     try {
       const { refreshToken } = req.cookies;
       if (!refreshToken) {
@@ -70,9 +70,9 @@ export default class AuthController {
       }
       next(err);
     }
-  };
+  }
 
-  public refresh = async (req: Request, res: Response, next: NextFunction) => {
+  public async refresh(req: Request, res: Response, next: NextFunction) {
     const { refreshToken } = req.cookies;
     if (!refreshToken) {
       throw new HTTPError('Failed to refresh token', 401, ['Unauthorized']);
@@ -92,7 +92,7 @@ export default class AuthController {
       }
       next(err);
     }
-  };
+  }
 
   public dummyVerifyLoggedIn = async (
     req: Request,

@@ -16,7 +16,7 @@ export default class AuthService {
     this.accountModel = new AccountModel();
   }
 
-  public register = async ({ username, email, password }: RegisterInput) => {
+  public async register({ username, email, password }: RegisterInput) {
     const account = await this.accountModel.getAccount(username, email);
     if (account) {
       throw new AppError('Failed to create account', ['User already exists']);
@@ -29,9 +29,9 @@ export default class AuthService {
       email,
       password: hashedPassword
     });
-  };
+  }
 
-  public login = async ({ username, password }: LoginInput) => {
+  public async login({ username, password }: LoginInput) {
     const account = await this.accountModel.getAccount(username);
     if (!account) {
       throw new AppError('Failed to login', ['Account does not exist']);
@@ -50,15 +50,15 @@ export default class AuthService {
     });
 
     return { accessToken, refreshToken };
-  };
+  }
 
-  public logout = async (refreshToken: string) => {
+  public async logout(refreshToken: string) {
     this.verifyRefreshToken(refreshToken);
 
     await redis.del(`refresh:${refreshToken}`);
-  };
+  }
 
-  public verifyRefreshToken = async (refreshToken: string) => {
+  public async verifyRefreshToken(refreshToken: string) {
     let decodedToken: TokenPayload;
     try {
       decodedToken = jwt.verify(
@@ -76,9 +76,9 @@ export default class AuthService {
     }
 
     return decodedToken;
-  };
+  }
 
-  public verifyAccessToken = (accessToken: string) => {
+  public verifyAccessToken(accessToken: string) {
     let decodedToken: TokenPayload;
     try {
       decodedToken = jwt.verify(
@@ -93,9 +93,9 @@ export default class AuthService {
       throw new AppError('Unauthorized', ['Access token is invalid']);
     }
     return decodedToken;
-  };
+  }
 
-  public generateAccessToken = (payload: TokenPayload) => {
+  public generateAccessToken(payload: TokenPayload) {
     const expiryDuration = parseInt(
       process.env.JWT_ACCESS_TOKEN_EXPIRY_TIME!,
       10
@@ -109,9 +109,9 @@ export default class AuthService {
       }
     );
     return accessToken;
-  };
+  }
 
-  public generateRefreshToken = async (payload: TokenPayload) => {
+  public async generateRefreshToken(payload: TokenPayload) {
     const expiryDuration = parseInt(
       process.env.JWT_REFRESH_TOKEN_EXPIRY_TIME!,
       10
@@ -128,5 +128,5 @@ export default class AuthService {
       EX: expiryDuration
     });
     return refreshToken;
-  };
+  }
 }
