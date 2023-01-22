@@ -74,11 +74,12 @@ export default class AuthController {
 
   public async refresh(req: Request, res: Response, next: NextFunction) {
     const { refreshToken } = req.cookies;
-    if (!refreshToken) {
-      throw new HTTPError('Failed to refresh token', 401, ['Unauthorized']);
-    }
 
     try {
+      if (!refreshToken) {
+        throw new HTTPError('Failed to refresh token', 401, ['Unauthorized']);
+      }
+
       const { username } = await this.authService.verifyRefreshToken(
         refreshToken
       );
