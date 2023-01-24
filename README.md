@@ -11,7 +11,7 @@ Project is still under development, stay tuned! :clock1:
 The backend server is responsible for handling all the game logic by exposing a SocketIO namespace called "sp-game". Although it is a singleplayer game mode, the game logic should never exist on the client-side since it can be exploited and altered easily.
 
 The following diagram illustrates a sample flow of events:
-![alt text](https://am3pap007files.storage.live.com/y4mKx12OjjODQQnLDh9I6DwJiduWu1Tl6Nqf9Cf1ZKvKI4jEDTsy-xG-Y0axG-tDlPJ80-mSq3pI46bl43dPky0ZnXBRI_zqq8XcY9dB6XvFJa8w0MzhFfm-Du-o3Rs6Jn8AUSLt9AZW0QxbiNkoThjPZ6a9Bo0CabmVXeZ3TiShng4mb-mMfyIbGQ4p2_ayw13?width=5147&height=4647&cropmode=none 'Logo Title Text 1')
+![alt text](https://am3pap007files.storage.live.com/y4mKx12OjjODQQnLDh9I6DwJiduWu1Tl6Nqf9Cf1ZKvKI4jEDTsy-xG-Y0axG-tDlPJ80-mSq3pI46bl43dPky0ZnXBRI_zqq8XcY9dB6XvFJa8w0MzhFfm-Du-o3Rs6Jn8AUSLt9AZW0QxbiNkoThjPZ6a9Bo0CabmVXeZ3TiShng4mb-mMfyIbGQ4p2_ayw13?width=5147&height=4647&cropmode=none 'Sample flow of events')
 
 #### :watch: [Next Release] Multiplayer Game Mode
 
